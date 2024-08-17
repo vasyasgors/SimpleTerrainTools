@@ -37,9 +37,11 @@ Shader "Custom/TerrainTexture"
         {
             float dotProduct = dot(IN.worldNormal, float3(0, 1, 0));
             //dotProduct = clamp((dotProduct + 1) / 2, 0, 1);
-            dotProduct = (dotProduct + 1) / 2;
+            //dotProduct = (dotProduct + 1) / 2;
 
-            fixed4 col = tex2D(_MainTex, fixed2(dotProduct, 0.5f));
+            float linearDotProduct = 1 - (acos(dotProduct) /  3.14159265359);
+
+            fixed4 col = tex2D(_MainTex, fixed2(linearDotProduct, 0.5f));
             o.Albedo = col;
 
             //fixed4 col = tex2D(_MainTex, float2(0.01f, 0.01f));
