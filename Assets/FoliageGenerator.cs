@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEditor.SceneManagement;
+
 using Random = UnityEngine.Random;
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.SceneManagement;
 #endif
 
 [System.Serializable]
@@ -23,7 +24,12 @@ public class GenerationElement
     {
         if (surfaceAngle < surfaceAngleMinMax.x || surfaceAngle > surfaceAngleMinMax.y) return false;
 
-        GameObject spawnedObject =  GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+
+
+#if UNITY_EDITOR
+        GameObject spawnedObject;
+
+        spawnedObject =  PrefabUtility.InstantiatePrefab(prefab) as GameObject;
 
         float randomScale = Random.Range(randomScaleMinMax.x,randomScaleMinMax.y);
         spawnedObject.transform.localScale = new Vector3(randomScale, randomScale, randomScale);
@@ -38,6 +44,8 @@ public class GenerationElement
         spawnedObject.transform.RotateAround(spawnedObject.transform.position, spawnedObject.transform.up, randomAngle);
       
         spawnedObject.transform.SetParent(parent);
+
+#endif
 
         return true;
 
