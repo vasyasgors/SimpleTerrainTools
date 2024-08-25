@@ -30,6 +30,7 @@ public class GenerationElement
         GameObject spawnedObject;
 
         spawnedObject =  PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+        spawnedObject.isStatic = true;
 
         float randomScale = Random.Range(randomScaleMinMax.x,randomScaleMinMax.y);
         spawnedObject.transform.localScale = new Vector3(randomScale, randomScale, randomScale);
